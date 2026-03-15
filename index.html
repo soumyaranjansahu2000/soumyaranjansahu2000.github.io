@@ -1,391 +1,940 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Soumyaranjan Sahu | SDET Portfolio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Soumyaranjan Sahu — SDET & Automation Engineer</title>
+<meta name="description" content="SDET Portfolio — Playwright + Python, AI-Powered Test Automation, API Testing, CI/CD"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-
-body{
-background:#0d0f1a;
-color:white;
-overflow-x:hidden;
+:root {
+  --bg: #060608;
+  --surface: #0e0e14;
+  --surface2: #16161f;
+  --border: #1f1f2e;
+  --border2: #2a2a3d;
+  --lime: #c8ff00;
+  --cyan: #00e5ff;
+  --orange: #ff6b35;
+  --violet: #7c3aed;
+  --violet-light: #a78bfa;
+  --white: #f4f4f8;
+  --grey: #8888a0;
+  --font-hero: 'Bebas Neue', cursive;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
 }
 
-#particles-js{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
+/* ── CURSOR ── */
+#cur, #cur2 { position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+#cur { width: 8px; height: 8px; background: var(--lime); transition: transform .08s; }
+#cur2 { width: 32px; height: 32px; border: 1px solid rgba(200,255,0,.4); transition: transform .14s ease, border-color .2s; }
+body:has(a:hover) #cur { transform: translate(-50%,-50%) scale(2.5); background: var(--cyan); }
+body:has(a:hover) #cur2 { border-color: rgba(0,229,255,.5); transform: translate(-50%,-50%) scale(1.4); }
+
+/* ── CANVAS BG ── */
+#bg-canvas { position: fixed; inset: 0; z-index: 0; opacity: .6; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 4rem;
+  background: rgba(6,6,8,.8); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--font-mono); font-size: .85rem; color: var(--lime); letter-spacing: 1px; }
+.nav-links { display: flex; gap: 3rem; list-style: none; }
+.nav-links a { color: var(--grey); text-decoration: none; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; font-family: var(--font-mono); transition: color .2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: .55rem 1.4rem; border: 1px solid var(--lime); color: var(--lime);
+  text-decoration: none; transition: background .2s, color .2s;
+}
+.nav-cta:hover { background: var(--lime); color: #000; }
+
+/* ── SECTIONS ── */
+section { position: relative; z-index: 1; }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 4rem; }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 7rem 4rem 5rem;
+}
+.hero-inner { max-width: 1140px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 420px; gap: 4rem; align-items: center; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 1.4rem;
+  animation: fadeUp .6s .1s both;
+}
+.hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.6)} }
+
+.hero-name {
+  font-family: var(--font-hero);
+  font-size: clamp(5rem, 10vw, 9rem);
+  line-height: .92; letter-spacing: 2px;
+  animation: fadeUp .7s .2s both;
+}
+.hero-name .ln { color: var(--lime); }
+.hero-name .fn { color: var(--white); -webkit-text-stroke: 1px rgba(244,244,248,.3); }
+
+.hero-title {
+  margin-top: 1.6rem;
+  font-family: var(--font-mono); font-size: clamp(.85rem, 1.5vw, 1rem);
+  color: var(--grey); line-height: 1.6;
+  animation: fadeUp .7s .32s both;
+}
+.hero-title strong { color: var(--cyan); font-weight: 600; }
+
+.hero-bio {
+  margin-top: 1.2rem; max-width: 500px;
+  font-size: .95rem; line-height: 1.85; color: var(--grey);
+  animation: fadeUp .7s .42s both;
 }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:40px 20px;
+.hero-actions { margin-top: 2.4rem; display: flex; gap: 1rem; animation: fadeUp .7s .52s both; }
+.btn-lime {
+  display: inline-block; padding: .8rem 2rem;
+  background: var(--lime); color: #000;
+  font-family: var(--font-mono); font-size: .75rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-lime:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,255,0,.3); }
+.btn-ghost {
+  display: inline-block; padding: .8rem 2rem;
+  border: 1px solid var(--border2); color: var(--grey);
+  font-family: var(--font-mono); font-size: .75rem;
+  letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  transition: border-color .2s, color .2s;
+}
+.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.hero-metrics {
+  margin-top: 3.5rem; display: flex; gap: 3.5rem;
+  animation: fadeUp .7s .62s both;
+}
+.metric-item { display: flex; flex-direction: column; gap: .3rem; }
+.metric-val { font-family: var(--font-hero); font-size: 3.2rem; line-height: 1; letter-spacing: 1px; }
+.mv1 { color: var(--lime); } .mv2 { color: var(--cyan); } .mv3 { color: var(--orange); }
+.metric-label { font-family: var(--font-mono); font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grey); }
+
+/* Hero Right — Terminal Card */
+.hero-terminal {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 2px; overflow: hidden;
+  animation: fadeUp .8s .4s both;
+  box-shadow: 0 40px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03);
+}
+.term-header {
+  background: var(--surface2); padding: .8rem 1.2rem;
+  display: flex; align-items: center; gap: .6rem;
+  border-bottom: 1px solid var(--border);
+}
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.td1{background:#ff5f57;} .td2{background:#ffbd2e;} .td3{background:#28c841;}
+.term-title { font-family: var(--font-mono); font-size: .7rem; color: var(--grey); margin-left: .5rem; }
+.term-body { padding: 1.4rem 1.6rem; font-family: var(--font-mono); font-size: .78rem; line-height: 2; }
+.t-comment { color: #4a4a6a; }
+.t-keyword { color: var(--violet-light); }
+.t-fn { color: var(--cyan); }
+.t-string { color: var(--lime); }
+.t-var { color: var(--orange); }
+.t-op { color: var(--grey); }
+.t-pass { color: #28c841; font-weight: 600; }
+.term-result {
+  margin-top: .6rem; padding: .8rem 1rem;
+  background: rgba(40,200,65,.06); border-left: 2px solid #28c841;
+  font-family: var(--font-mono); font-size: .75rem; color: #28c841;
 }
 
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:50px;
+/* ── AI BADGE ── */
+.ai-badge-section { padding: 1.5rem 0; }
+.ai-banner {
+  background: linear-gradient(135deg, rgba(124,58,237,.15) 0%, rgba(0,229,255,.08) 100%);
+  border: 1px solid rgba(124,58,237,.35);
+  padding: 2rem 3rem;
+  display: flex; align-items: center; gap: 2rem;
+  position: relative; overflow: hidden;
+}
+.ai-banner::before {
+  content: 'AI';
+  position: absolute; right: -1rem; top: -1.5rem;
+  font-family: var(--font-hero); font-size: 8rem; color: rgba(124,58,237,.06);
+  pointer-events: none;
+}
+.ai-icon { font-size: 2.4rem; flex-shrink: 0; }
+.ai-text h3 { font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: .4rem; }
+.ai-text p { font-size: .88rem; line-height: 1.7; color: var(--grey); }
+.ai-tag {
+  flex-shrink: 0; margin-left: auto;
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: 2px;
+  padding: .5rem 1.2rem; background: rgba(124,58,237,.2); border: 1px solid rgba(124,58,237,.4);
+  color: var(--violet-light); text-transform: uppercase; white-space: nowrap;
 }
 
-nav a{
-color:white;
-margin-left:20px;
-text-decoration:none;
+/* ── SECTION HEADERS ── */
+.sec-header { margin-bottom: 3.5rem; }
+.sec-label { font-family: var(--font-mono); font-size: .68rem; letter-spacing: 3px; text-transform: uppercase; color: var(--lime); margin-bottom: .7rem; }
+.sec-title { font-family: var(--font-hero); font-size: clamp(2.4rem, 5vw, 4rem); letter-spacing: 1px; line-height: 1; }
+.sec-title .accent { color: var(--cyan); }
+
+/* ── SKILLS ── */
+#skills { padding: 7rem 0; }
+.skills-layout { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; align-items: start; }
+.skills-sidebar { display: flex; flex-direction: column; gap: .8rem; }
+.skill-tab {
+  padding: 1rem 1.4rem; border: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: .78rem; color: var(--grey);
+  cursor: none; transition: all .2s; background: transparent;
+  text-align: left; letter-spacing: .5px;
+}
+.skill-tab.active, .skill-tab:hover { border-color: var(--lime); color: var(--lime); background: rgba(200,255,0,.04); }
+.skills-content { display: none; }
+.skills-content.active { display: block; }
+.skill-content-title { font-size: 1.4rem; font-weight: 500; margin-bottom: 1.2rem; }
+.skill-pills { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 2rem; }
+.pill {
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .5px;
+  padding: .45rem 1rem;
+  background: var(--surface2); border: 1px solid var(--border2); color: var(--grey);
+  transition: all .2s;
+}
+.pill:hover { border-color: var(--cyan); color: var(--white); }
+.pill.hot { border-color: rgba(200,255,0,.3); color: var(--lime); background: rgba(200,255,0,.04); }
+.skill-bars { display: flex; flex-direction: column; gap: 1rem; }
+.sbar-row { display: flex; flex-direction: column; gap: .4rem; }
+.sbar-info { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: .72rem; color: var(--grey); }
+.sbar-track { height: 3px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.sbar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+.fill-lime { background: var(--lime); }
+.fill-cyan { background: var(--cyan); }
+.fill-orange { background: var(--orange); }
+
+/* ── EXPERIENCE ── */
+#experience { padding: 7rem 0; background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 50%, var(--bg) 100%); }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.exp-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 2.5rem; position: relative; overflow: hidden;
+  transition: border-color .25s;
+}
+.exp-card:hover { border-color: var(--border2); }
+.exp-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0; transition: opacity .25s;
+}
+.exp-card.current::after { background: var(--lime); opacity: 1; }
+.exp-card.prev::after { background: var(--cyan); }
+.exp-card:hover::after { opacity: 1; }
+.exp-period { font-family: var(--font-mono); font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); margin-bottom: .8rem; }
+.exp-card.prev .exp-period { color: var(--cyan); }
+.current-tag {
+  position: absolute; top: 1.4rem; right: 1.4rem;
+  font-family: var(--font-mono); font-size: .6rem; letter-spacing: 1.5px;
+  padding: .25rem .7rem; background: rgba(200,255,0,.1); border: 1px solid rgba(200,255,0,.3);
+  color: var(--lime); text-transform: uppercase;
+}
+.exp-role { font-size: 1.2rem; font-weight: 500; margin-bottom: .3rem; }
+.exp-company { font-family: var(--font-mono); font-size: .78rem; color: var(--grey); margin-bottom: 1.4rem; }
+.exp-points { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+.exp-points li { font-size: .875rem; color: var(--grey); line-height: 1.65; padding-left: 1.1rem; position: relative; }
+.exp-points li::before { content: '→'; position: absolute; left: 0; color: var(--lime); font-size: .7rem; top: .15rem; }
+.exp-card.prev .exp-points li::before { color: var(--cyan); }
+.exp-highlight { color: var(--white) !important; }
+
+/* ── PROJECTS ── */
+#projects { padding: 7rem 0; }
+.proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; }
+.proj-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 2.2rem; position: relative; overflow: hidden;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+  display: flex; flex-direction: column;
+}
+.proj-card:hover { transform: translateY(-4px); border-color: var(--border2); box-shadow: 0 20px 50px rgba(0,0,0,.5); }
+.proj-card.featured { grid-column: span 2; background: linear-gradient(135deg, var(--surface) 0%, rgba(124,58,237,.08) 100%); }
+.proj-card.featured { border-color: rgba(124,58,237,.25); }
+.proj-type {
+  font-family: var(--font-mono); font-size: .65rem; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 1.2rem;
+  display: inline-flex; align-items: center; gap: .5rem;
+}
+.type-dot { width: 6px; height: 6px; border-radius: 50%; }
+.dot-lime{background:var(--lime);} .dot-cyan{background:var(--cyan);} .dot-orange{background:var(--orange);} .dot-violet{background:var(--violet-light);}
+.proj-num { font-family: var(--font-hero); font-size: 5rem; color: rgba(255,255,255,.03); position: absolute; right: 1rem; top: .5rem; line-height: 1; pointer-events: none; }
+.proj-title { font-size: 1.15rem; font-weight: 500; margin-bottom: .8rem; line-height: 1.3; }
+.proj-desc { font-size: .86rem; color: var(--grey); line-height: 1.75; flex: 1; margin-bottom: 1.5rem; }
+.proj-stack { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.5rem; }
+.stack-tag { font-family: var(--font-mono); font-size: .65rem; padding: .25rem .7rem; background: rgba(255,255,255,.04); border: 1px solid var(--border); color: var(--grey); }
+.proj-link { font-family: var(--font-mono); font-size: .7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--grey); text-decoration: none; transition: color .2s; margin-top: auto; }
+.proj-link:hover { color: var(--lime); }
+
+/* ── AI FRAMEWORK ── */
+#ai-framework { padding: 7rem 0; background: var(--surface); }
+.ai-framework-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.ai-flow { display: flex; flex-direction: column; gap: 0; }
+.flow-step {
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  padding: 1.4rem 0; border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.flow-step:last-child { border-bottom: none; }
+.flow-num {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: .72rem; font-weight: 600;
+  border: 1px solid;
+}
+.fn1{border-color:var(--violet);color:var(--violet-light);background:rgba(124,58,237,.1);}
+.fn2{border-color:var(--cyan);color:var(--cyan);background:rgba(0,229,255,.08);}
+.fn3{border-color:var(--lime);color:var(--lime);background:rgba(200,255,0,.08);}
+.fn4{border-color:var(--orange);color:var(--orange);background:rgba(255,107,53,.08);}
+.flow-text h4 { font-size: .92rem; font-weight: 500; margin-bottom: .3rem; }
+.flow-text p { font-size: .82rem; color: var(--grey); line-height: 1.6; }
+.ai-code-block {
+  background: var(--bg); border: 1px solid var(--border2);
+  padding: 1.6rem; font-family: var(--font-mono); font-size: .76rem; line-height: 1.9;
+}
+.code-header { font-size: .68rem; color: var(--grey); letter-spacing: 1px; margin-bottom: 1rem; padding-bottom: .8rem; border-bottom: 1px solid var(--border); }
+.reduction-badge {
+  margin-top: 1.5rem; padding: 1.2rem;
+  background: rgba(200,255,0,.05); border: 1px solid rgba(200,255,0,.2);
+  display: flex; align-items: center; gap: 1rem;
+}
+.reduction-num { font-family: var(--font-hero); font-size: 3rem; color: var(--lime); line-height: 1; }
+.reduction-text { font-size: .82rem; color: var(--grey); line-height: 1.6; }
+
+/* ── CERTIFICATIONS ── */
+#certifications { padding: 7rem 0; }
+.cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px; }
+.cert-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 2rem; transition: border-color .2s, transform .2s;
+}
+.cert-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.cert-icon-wrap { font-size: 2.2rem; margin-bottom: 1.2rem; }
+.cert-name { font-size: .95rem; font-weight: 500; margin-bottom: .4rem; line-height: 1.4; }
+.cert-issuer { font-family: var(--font-mono); font-size: .68rem; color: var(--grey); letter-spacing: .5px; margin-bottom: 1rem; }
+.cert-badge {
+  display: inline-block; font-family: var(--font-mono); font-size: .62rem;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: .25rem .8rem; border-radius: 2px;
+}
+.cb-gold{background:rgba(255,214,0,.1);color:#ffd600;border:1px solid rgba(255,214,0,.25);}
+.cb-lime{background:rgba(200,255,0,.08);color:var(--lime);border:1px solid rgba(200,255,0,.2);}
+.cb-cyan{background:rgba(0,229,255,.08);color:var(--cyan);border:1px solid rgba(0,229,255,.2);}
+.cb-violet{background:rgba(167,139,250,.1);color:var(--violet-light);border:1px solid rgba(167,139,250,.25);}
+
+/* ── CONTACT ── */
+#contact { padding: 7rem 0; background: var(--surface); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.contact-headline { font-family: var(--font-hero); font-size: clamp(3rem, 6vw, 5.5rem); line-height: .95; letter-spacing: 1px; margin-bottom: 1.5rem; }
+.contact-sub { font-size: .92rem; color: var(--grey); line-height: 1.8; margin-bottom: 2.5rem; max-width: 380px; }
+.contact-items { display: flex; flex-direction: column; gap: .8rem; }
+.contact-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 1.4rem; background: var(--bg); border: 1px solid var(--border);
+  text-decoration: none; color: var(--white);
+  transition: border-color .2s, transform .2s;
+}
+.contact-item:hover { border-color: var(--lime); transform: translateX(4px); }
+.ci-icon { font-size: 1.1rem; width: 28px; text-align: center; flex-shrink: 0; }
+.ci-info { display: flex; flex-direction: column; gap: .15rem; }
+.ci-label { font-family: var(--font-mono); font-size: .6rem; color: var(--grey); letter-spacing: 1.5px; text-transform: uppercase; }
+.ci-val { font-family: var(--font-mono); font-size: .8rem; color: var(--white); }
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fgroup { display: flex; flex-direction: column; gap: .5rem; }
+.fgroup label { font-family: var(--font-mono); font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grey); }
+.fgroup input, .fgroup textarea {
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--white); font-family: var(--font-body); font-size: .88rem;
+  padding: .85rem 1rem; outline: none; transition: border-color .2s; resize: none;
+}
+.fgroup input:focus, .fgroup textarea:focus { border-color: var(--lime); }
+.form-submit {
+  background: var(--lime); color: #000; border: none;
+  font-family: var(--font-mono); font-size: .75rem; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 1rem; cursor: none; transition: box-shadow .2s, transform .2s;
+}
+.form-submit:hover { box-shadow: 0 8px 30px rgba(200,255,0,.3); transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 2.5rem 4rem; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-mono); font-size: .7rem; color: var(--grey);
+}
+footer .fl { color: var(--lime); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  #hero{padding:6rem 1.5rem 4rem;}
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-terminal{display:none;}
+  .wrap{padding:0 1.5rem;}
+  .skills-layout{grid-template-columns:1fr;}
+  .exp-grid{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:1fr;}
+  .proj-card.featured{grid-column:span 1;}
+  .cert-grid{grid-template-columns:1fr 1fr;}
+  .ai-framework-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:.5rem;text-align:center;padding:2rem 1.5rem;}
 }
 
-.hero{
-margin-top:60px;
-}
-
-.hero h1{
-font-size:52px;
-}
-
-.hero span{
-color:#00f5d4;
-}
-
-.btn{
-background:#00f5d4;
-color:black;
-padding:12px 20px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-margin-top:20px;
-font-weight:600;
-}
-
-.card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-padding:25px;
-border-radius:10px;
-margin-top:30px;
-}
-
-.skills span{
-display:inline-block;
-background:#222;
-padding:6px 12px;
-margin:6px;
-border-radius:4px;
-}
-
-.metric{margin-top:15px;}
-
-.bar{
-height:10px;
-background:#333;
-border-radius:5px;
-overflow:hidden;
-}
-
-.fill{
-height:10px;
-background:#00f5d4;
-}
-
-.code{
-background:#0a0a0a;
-padding:20px;
-border-radius:6px;
-margin-top:20px;
-font-family:monospace;
-}
-
-#terminal{
-background:black;
-padding:20px;
-margin-top:20px;
-border-radius:6px;
-font-family:monospace;
-color:#00ff9c;
-min-height:120px;
-}
-
-footer{
-margin-top:60px;
-padding:30px;
-border-top:1px solid #333;
-text-align:center;
-}
-
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--lime);}
 </style>
-
 </head>
-
 <body>
 
-<div id="particles-js"></div>
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="bg-canvas"></canvas>
 
-<div class="container">
-
+<!-- NAV -->
 <nav>
-
-<h3>&lt;SS/&gt;</h3>
-
-<div>
-<a href="#skills">Skills</a>
-<a href="#projects">Projects</a>
-<a href="#automation">Automation</a>
-<a href="#contact">Contact</a>
-</div>
-
+  <div class="nav-logo">SS.<span style="color:var(--grey)">portfolio</span></div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#ai-framework">AI Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:soumyaranjansahu232@gmail.com" class="nav-cta">Hire Me</a>
 </nav>
 
-<section class="hero">
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="hero-dot"></span> Available for SDET Roles</div>
+      <h1 class="hero-name">
+        <div class="fn">SOUMYA</div>
+        <div class="ln">RANJAN</div>
+        <div class="fn">SAHU</div>
+      </h1>
+      <p class="hero-title">
+        <strong>Software Development Engineer in Test</strong><br/>
+        Playwright · Python · AI-Powered Automation · CI/CD
+      </p>
+      <p class="hero-bio">
+        4.6+ years building quality into software — from meticulous manual testing to authoring AI-powered automation frameworks that reduce test creation effort by 70%. Bridging the gap between QA and engineering.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-lime">View My Work</a>
+        <a href="https://github.com/soumyaranjansahu2000" target="_blank" class="btn-ghost">GitHub →</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric-item"><span class="metric-val mv1">4.6</span><span class="metric-label">Years QA</span></div>
+        <div class="metric-item"><span class="metric-val mv2">70%</span><span class="metric-label">Test Effort ↓</span></div>
+        <div class="metric-item"><span class="metric-val mv3">ISTQB</span><span class="metric-label">Certified</span></div>
+      </div>
+    </div>
 
-<h1>Soumyaranjan <span>Sahu</span></h1>
-
-<h3>Senior QA Engineer → SDET</h3>
-
-<p>
-Automation Engineer specializing in Python, Playwright and scalable test frameworks.
-</p>
-
-<button class="btn" onclick="generateResume()">Download Resume</button>
-
+    <!-- Terminal Card -->
+    <div class="hero-terminal">
+      <div class="term-header">
+        <div class="term-dot td1"></div>
+        <div class="term-dot td2"></div>
+        <div class="term-dot td3"></div>
+        <span class="term-title">test_login.py — pytest</span>
+      </div>
+      <div class="term-body">
+        <div><span class="t-comment"># AI-generated via LLM agent 🤖</span></div>
+        <div><span class="t-keyword">import</span> <span class="t-var">pytest</span></div>
+        <div><span class="t-keyword">from</span> <span class="t-var">pages.login_page</span> <span class="t-keyword">import</span> <span class="t-fn">LoginPage</span></div>
+        <div>&nbsp;</div>
+        <div><span class="t-keyword">def</span> <span class="t-fn">test_valid_login</span><span class="t-op">(page):</span></div>
+        <div>&nbsp;&nbsp;<span class="t-var">login</span> <span class="t-op">=</span> <span class="t-fn">LoginPage</span><span class="t-op">(page)</span></div>
+        <div>&nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">navigate</span><span class="t-op">()</span></div>
+        <div>&nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">fill_credentials</span><span class="t-op">(</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-string">"admin"</span><span class="t-op">,</span> <span class="t-string">"admin123"</span></div>
+        <div>&nbsp;&nbsp;<span class="t-op">)</span></div>
+        <div>&nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">submit</span><span class="t-op">()</span></div>
+        <div>&nbsp;&nbsp;<span class="t-fn">expect</span><span class="t-op">(page).</span><span class="t-fn">to_have_url</span><span class="t-op">(</span><span class="t-string">"/dashboard"</span><span class="t-op">)</span></div>
+        <div class="term-result">✔ PASSED · 1.24s · Playwright Chrome</div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- AI BANNER -->
+<div class="ai-badge-section" style="position:relative;z-index:1;padding:0 4rem;">
+  <div style="max-width:1140px;margin:0 auto;">
+    <div class="ai-banner reveal">
+      <div class="ai-icon">🤖</div>
+      <div class="ai-text">
+        <h3>AI-Powered Test Automation — Agentic AI Framework</h3>
+        <p>Contributed to a production framework where plain English test scenarios are processed by an LLM agent to auto-generate executable Playwright Python scripts following POM structure — reducing test authoring time by <strong style="color:var(--lime)">70%</strong>.</p>
+      </div>
+      <div class="ai-tag">LLM · Agentic AI</div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
 <section id="skills">
-
-<div class="card">
-
-<h2>Skills</h2>
-
-<div class="skills">
-
-<span>Python</span>
-<span>Playwright</span>
-<span>Pytest</span>
-<span>API Testing</span>
-<span>SQL</span>
-<span>Postman</span>
-<span>Git</span>
-<span>JIRA</span>
-
-</div>
-
-</div>
-
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <p class="sec-label">// 01 — Technical Stack</p>
+      <h2 class="sec-title">Skills &<br/><span class="accent">Expertise</span></h2>
+    </div>
+    <div class="skills-layout reveal">
+      <div class="skills-sidebar">
+        <button class="skill-tab active" onclick="showSkill('automation')">🎭 Automation</button>
+        <button class="skill-tab" onclick="showSkill('manual')">🔍 Manual QA</button>
+        <button class="skill-tab" onclick="showSkill('api')">🔌 API Testing</button>
+        <button class="skill-tab" onclick="showSkill('cicd')">⚙️ CI/CD & Tools</button>
+        <button class="skill-tab" onclick="showSkill('ai')">🤖 AI & Reporting</button>
+      </div>
+      <div>
+        <div id="skill-automation" class="skills-content active">
+          <h3 class="skill-content-title">Test Automation</h3>
+          <div class="skill-pills">
+            <span class="pill hot">Playwright</span>
+            <span class="pill hot">Python</span>
+            <span class="pill hot">Pytest</span>
+            <span class="pill hot">Page Object Model</span>
+            <span class="pill">fixtures</span>
+            <span class="pill">conftest.py</span>
+            <span class="pill">assertions</span>
+            <span class="pill">locators</span>
+            <span class="pill">cross-browser</span>
+          </div>
+          <div class="skill-bars">
+            <div class="sbar-row"><div class="sbar-info"><span>Playwright</span><span>85%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:85%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>Python</span><span>80%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:80%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>Page Object Model</span><span>90%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:90%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>Pytest Framework</span><span>82%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:82%"></div></div></div>
+          </div>
+        </div>
+        <div id="skill-manual" class="skills-content">
+          <h3 class="skill-content-title">Manual QA</h3>
+          <div class="skill-pills">
+            <span class="pill hot">Functional Testing</span>
+            <span class="pill hot">Regression Testing</span>
+            <span class="pill hot">UAT</span>
+            <span class="pill">Integration Testing</span>
+            <span class="pill">System Testing</span>
+            <span class="pill">Smoke & Sanity</span>
+            <span class="pill">BRD / FRD Review</span>
+            <span class="pill">RTM</span>
+            <span class="pill">Defect Lifecycle</span>
+          </div>
+          <div class="skill-bars">
+            <div class="sbar-row"><div class="sbar-info"><span>Manual Testing</span><span>95%</span></div><div class="sbar-track"><div class="sbar-fill fill-cyan" style="width:95%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>Test Case Design</span><span>92%</span></div><div class="sbar-track"><div class="sbar-fill fill-cyan" style="width:92%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>STLC / SDLC</span><span>90%</span></div><div class="sbar-track"><div class="sbar-fill fill-cyan" style="width:90%"></div></div></div>
+          </div>
+        </div>
+        <div id="skill-api" class="skills-content">
+          <h3 class="skill-content-title">API Testing</h3>
+          <div class="skill-pills">
+            <span class="pill hot">Postman</span>
+            <span class="pill hot">Playwright APIRequestContext</span>
+            <span class="pill hot">REST API</span>
+            <span class="pill">Status Codes</span>
+            <span class="pill">Payload Validation</span>
+            <span class="pill">JSON Schema</span>
+            <span class="pill">SQL</span>
+            <span class="pill">Backend Verification</span>
+          </div>
+          <div class="skill-bars">
+            <div class="sbar-row"><div class="sbar-info"><span>Postman</span><span>88%</span></div><div class="sbar-track"><div class="sbar-fill fill-orange" style="width:88%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>REST API Testing</span><span>85%</span></div><div class="sbar-track"><div class="sbar-fill fill-orange" style="width:85%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>SQL Validation</span><span>72%</span></div><div class="sbar-track"><div class="sbar-fill fill-orange" style="width:72%"></div></div></div>
+          </div>
+        </div>
+        <div id="skill-cicd" class="skills-content">
+          <h3 class="skill-content-title">CI/CD & Tools</h3>
+          <div class="skill-pills">
+            <span class="pill hot">GitHub Actions</span>
+            <span class="pill hot">Git</span>
+            <span class="pill hot">JIRA</span>
+            <span class="pill">Confluence</span>
+            <span class="pill">YAML Workflows</span>
+            <span class="pill">Pipeline Triggers</span>
+            <span class="pill">Agile / Scrum</span>
+            <span class="pill">Slack</span>
+          </div>
+          <div class="skill-bars">
+            <div class="sbar-row"><div class="sbar-info"><span>GitHub Actions</span><span>80%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:80%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>Git</span><span>78%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:78%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>JIRA</span><span>92%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:92%"></div></div></div>
+          </div>
+        </div>
+        <div id="skill-ai" class="skills-content">
+          <h3 class="skill-content-title">AI & Reporting</h3>
+          <div class="skill-pills">
+            <span class="pill hot">Agentic AI (LLM)</span>
+            <span class="pill hot">AI Test Generation</span>
+            <span class="pill hot">Allure Reports</span>
+            <span class="pill">Pytest-HTML</span>
+            <span class="pill">Prompt Engineering</span>
+            <span class="pill">POM Auto-gen</span>
+          </div>
+          <div class="skill-bars">
+            <div class="sbar-row"><div class="sbar-info"><span>Agentic AI Workflow</span><span>75%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:75%"></div></div></div>
+            <div class="sbar-row"><div class="sbar-info"><span>Allure Reports</span><span>82%</span></div><div class="sbar-track"><div class="sbar-fill fill-lime" style="width:82%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <p class="sec-label">// 02 — Work History</p>
+      <h2 class="sec-title">Experience<br/><span class="accent">Timeline</span></h2>
+    </div>
+    <div class="exp-grid reveal">
+      <div class="exp-card current">
+        <span class="current-tag">Current</span>
+        <p class="exp-period">Oct 2024 — Present</p>
+        <h3 class="exp-role">Senior Quality Engineer</h3>
+        <p class="exp-company">Cozentus Technologies Pvt Ltd · Bhubaneswar</p>
+        <ul class="exp-points">
+          <li class="exp-highlight">Contributed to AI-powered automation framework — LLM converts plain English scenarios to Playwright scripts, reducing effort by 70%</li>
+          <li>Developed automated test cases using Pytest + POM design pattern</li>
+          <li>Maintained POM classes (LoginPage, CartPage, CheckoutPage) across UI changes</li>
+          <li>Performed REST API testing via Postman — payloads, status codes, business rules</li>
+          <li>SQL queries for backend data validation & database verification</li>
+          <li>Analyzed Allure HTML reports to identify failures and root causes</li>
+          <li>Agile Scrum — Sprint Planning, Stand-ups, Reviews, Retrospectives</li>
+        </ul>
+      </div>
+      <div class="exp-card prev">
+        <p class="exp-period">Oct 2021 — Sep 2024</p>
+        <h3 class="exp-role">Quality Engineer</h3>
+        <p class="exp-company">Meditab Software Pvt Ltd · Ahmedabad</p>
+        <ul class="exp-points">
+          <li>Reviewed BRD, FRD, and user stories to understand workflows and business logic</li>
+          <li>Designed detailed test cases — positive, negative, boundary, edge scenarios</li>
+          <li>Performed Functional, Regression, Integration, and E2E testing across releases</li>
+          <li>UI and cross-browser testing for consistent user experience</li>
+          <li>API validation using Postman — request/response payloads and business rules</li>
+          <li>Maintained RTM and test execution reports; supported release smoke testing</li>
+          <li>Defect triage with developers and BAs for root cause analysis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI FRAMEWORK -->
+<section id="ai-framework">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <p class="sec-label">// 03 — AI Work</p>
+      <h2 class="sec-title">Agentic AI<br/><span class="accent">Framework</span></h2>
+    </div>
+    <div class="ai-framework-grid reveal">
+      <div>
+        <p style="font-size:.92rem;color:var(--grey);line-height:1.85;margin-bottom:2rem;">
+          At Cozentus, contributed to a cutting-edge AI-powered test automation system where natural language test scenarios are processed by an LLM agent to automatically generate production-ready Playwright Python scripts.
+        </p>
+        <div class="ai-flow">
+          <div class="flow-step">
+            <div class="flow-num fn1">01</div>
+            <div class="flow-text">
+              <h4>Write Plain English Scenario</h4>
+              <p>"User should login with valid credentials and be redirected to dashboard"</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn2">02</div>
+            <div class="flow-text">
+              <h4>LLM Agent Processes Input</h4>
+              <p>Prompt template engine instructs the LLM to generate code following POM structure, Playwright locators, and Pytest fixtures</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn3">03</div>
+            <div class="flow-text">
+              <h4>Production-Ready Script Generated</h4>
+              <p>Complete Pytest test function with POM class, locators (get_by_role, get_by_text), fixtures — zero manual coding</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn4">04</div>
+            <div class="flow-text">
+              <h4>Execute & Analyze with Allure</h4>
+              <p>Test suite runs via Pytest, results analyzed through Allure HTML reports with failure root cause identification</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="ai-code-block">
+          <div class="code-header">// AUTO-GENERATED BY LLM AGENT</div>
+          <div>
+            <span class="t-comment"># Input: "user logs in with valid creds"</span><br/>
+            <span class="t-keyword">from</span> <span class="t-var">pages.login_page</span> <span class="t-keyword">import</span> <span class="t-fn">LoginPage</span><br/>
+            <span class="t-keyword">from</span> <span class="t-var">playwright.sync_api</span> <span class="t-keyword">import</span> <span class="t-fn">expect</span><br/><br/>
+            <span class="t-keyword">def</span> <span class="t-fn">test_valid_login</span><span class="t-op">(page, base_url):</span><br/>
+            &nbsp;&nbsp;<span class="t-var">login</span> <span class="t-op">=</span> <span class="t-fn">LoginPage</span><span class="t-op">(page)</span><br/>
+            &nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">navigate</span><span class="t-op">(base_url)</span><br/>
+            &nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">enter_username</span><span class="t-op">(</span><span class="t-string">"admin"</span><span class="t-op">)</span><br/>
+            &nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">enter_password</span><span class="t-op">(</span><span class="t-string">"admin123"</span><span class="t-op">)</span><br/>
+            &nbsp;&nbsp;<span class="t-var">login</span><span class="t-op">.</span><span class="t-fn">click_submit</span><span class="t-op">()</span><br/>
+            &nbsp;&nbsp;<span class="t-fn">expect</span><span class="t-op">(page).</span><span class="t-fn">to_have_url</span><span class="t-op">(</span><span class="t-var">f</span><span class="t-string">"{base_url}/dashboard"</span><span class="t-op">)</span><br/><br/>
+            <span class="t-pass">✔ PASSED · 1.24s</span>
+          </div>
+        </div>
+        <div class="reduction-badge">
+          <div class="reduction-num">70%</div>
+          <div class="reduction-text">Reduction in test creation effort — measured in production use at Cozentus Technologies on the DP-World Connect Application</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
 <section id="projects">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <p class="sec-label">// 04 — Portfolio</p>
+      <h2 class="sec-title">Projects &<br/><span class="accent">Builds</span></h2>
+    </div>
+    <div class="proj-grid reveal">
+      <div class="proj-card featured">
+        <div class="proj-num">01</div>
+        <div class="proj-type"><span class="type-dot dot-violet"></span><span style="color:var(--violet-light)">AI · Featured</span></div>
+        <h3 class="proj-title">AI-Powered Test Framework — DP World Connect App</h3>
+        <p class="proj-desc">Production framework at Cozentus where natural language scenarios are processed by an Agentic AI (LLM) to auto-generate executable Playwright Python scripts. Maintained POM classes across UI changes. Analyzed Allure reports for failure root cause. Reduced test authoring effort by 70%.</p>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Playwright</span><span class="stack-tag">LLM/Agentic AI</span><span class="stack-tag">POM</span><span class="stack-tag">Pytest</span><span class="stack-tag">Allure</span><span class="stack-tag">JIRA</span>
+        </div>
+        <a href="#" class="proj-link">Internal Project — Cozentus →</a>
+      </div>
 
-<div class="card">
+      <div class="proj-card">
+        <div class="proj-num">02</div>
+        <div class="proj-type"><span class="type-dot dot-lime"></span><span style="color:var(--lime)">Automation</span></div>
+        <h3 class="proj-title">E-Commerce UI Automation Suite</h3>
+        <p class="proj-desc">End-to-end Playwright + Python test suite with full POM architecture. Covers login, product search, cart, checkout, and payment flows with fixture-driven tests.</p>
+        <div class="proj-stack">
+          <span class="stack-tag">Playwright</span><span class="stack-tag">Pytest</span><span class="stack-tag">POM</span><span class="stack-tag">fixtures</span>
+        </div>
+        <a href="https://github.com/soumyaranjansahu2000" target="_blank" class="proj-link">GitHub →</a>
+      </div>
 
-<h2>Automation Framework Architecture</h2>
+      <div class="proj-card">
+        <div class="proj-num">03</div>
+        <div class="proj-type"><span class="type-dot dot-cyan"></span><span style="color:var(--cyan)">API Testing</span></div>
+        <h3 class="proj-title">REST API Automation Suite</h3>
+        <p class="proj-desc">API test suite using Playwright's APIRequestContext. Validates CRUD operations, authentication flows, response schemas, and error handling for REST backends.</p>
+        <div class="proj-stack">
+          <span class="stack-tag">APIRequestContext</span><span class="stack-tag">JSON Schema</span><span class="stack-tag">Pytest</span>
+        </div>
+        <a href="https://github.com/soumyaranjansahu2000" target="_blank" class="proj-link">GitHub →</a>
+      </div>
 
-<pre>
+      <div class="proj-card">
+        <div class="proj-num">04</div>
+        <div class="proj-type"><span class="type-dot dot-orange"></span><span style="color:var(--orange)">CI/CD</span></div>
+        <h3 class="proj-title">GitHub Actions CI Pipeline</h3>
+        <p class="proj-desc">Automated CI pipeline triggering Playwright tests on every push/PR. Generates Allure HTML reports, publishes artifacts, sends pass/fail status with Pytest-HTML.</p>
+        <div class="proj-stack">
+          <span class="stack-tag">GitHub Actions</span><span class="stack-tag">YAML</span><span class="stack-tag">Allure</span><span class="stack-tag">Pytest-HTML</span>
+        </div>
+        <a href="https://github.com/soumyaranjansahu2000" target="_blank" class="proj-link">GitHub →</a>
+      </div>
 
-tests/
-pages/
-utils/
-fixtures/
-conftest.py
-playwright.config.py
-
-Test Case
-   ↓
-Pytest
-   ↓
-Page Object Model
-   ↓
-Playwright
-   ↓
-Browser
-
-</pre>
-
-</div>
-
+      <div class="proj-card">
+        <div class="proj-num">05</div>
+        <div class="proj-type"><span class="type-dot dot-lime"></span><span style="color:var(--lime)">Manual QA</span></div>
+        <h3 class="proj-title">Show IT Max — Meditab</h3>
+        <p class="proj-desc">3-year QA ownership of Meditab's ShowITMax healthcare application. Full regression, cross-browser, API validation, defect lifecycle management across 10+ release cycles.</p>
+        <div class="proj-stack">
+          <span class="stack-tag">Manual Testing</span><span class="stack-tag">Postman</span><span class="stack-tag">JIRA</span><span class="stack-tag">RTM</span>
+        </div>
+        <a href="#" class="proj-link">Internal Project →</a>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="automation">
-
-<div class="card">
-
-<h2>Playwright Test Example</h2>
-
-<div class="code">
-
-def test_login(page):
-
- page.goto("https://example.com")
-
- page.get_by_placeholder("Username").fill("admin")
-
- page.get_by_placeholder("Password").fill("admin123")
-
- page.get_by_role("button", name="Login").click()
-
- expect(page).to_have_url("/dashboard")
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Automation Test Simulator</h2>
-
-<button class="btn" onclick="runTest()">Run Demo Test</button>
-
-<div id="terminal"></div>
-
-</div>
-
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="wrap">
+    <div class="sec-header reveal">
+      <p class="sec-label">// 05 — Credentials</p>
+      <h2 class="sec-title">Certs &<br/><span class="accent">Education</span></h2>
+    </div>
+    <div class="cert-grid reveal">
+      <div class="cert-card">
+        <div class="cert-icon-wrap">🏅</div>
+        <div class="cert-name">ISTQB Foundation Level</div>
+        <div class="cert-issuer">GASQ · Global Assoc. for Software Quality</div>
+        <span class="cert-badge cb-gold">2024 · Certified</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon-wrap">🎭</div>
+        <div class="cert-name">Playwright with Python</div>
+        <div class="cert-issuer">Udemy · Test Automation</div>
+        <span class="cert-badge cb-lime">2025 · Completed</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon-wrap">🐍</div>
+        <div class="cert-name">Python Programming</div>
+        <div class="cert-issuer">Udemy · Core Python & OOP</div>
+        <span class="cert-badge cb-cyan">2025 · Completed</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon-wrap">🎓</div>
+        <div class="cert-name">B.Sc. Computer Science</div>
+        <div class="cert-issuer">Fakir Mohan College · 72.2%</div>
+        <span class="cert-badge cb-violet">2020 · Graduated</span>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section>
-
-<div class="card">
-
-<h2>Automation Metrics</h2>
-
-<div class="metric">
-UI Automation
-<div class="bar"><div class="fill" style="width:80%"></div></div>
-</div>
-
-<div class="metric">
-API Testing
-<div class="bar"><div class="fill" style="width:75%"></div></div>
-</div>
-
-<div class="metric">
-Manual QA
-<div class="bar"><div class="fill" style="width:95%"></div></div>
-</div>
-
-</div>
-
-</section>
-
-<section>
-
-<div class="card">
-
-<h2>GitHub Activity</h2>
-
-<img src="https://github-readme-stats.vercel.app/api?username=soumyaranjansahu2000&show_icons=true&theme=tokyonight">
-
-<br><br>
-
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=soumyaranjansahu2000&theme=tokyonight">
-
-</div>
-
-</section>
-
+<!-- CONTACT -->
 <section id="contact">
-
-<div class="card">
-
-<h2>Contact</h2>
-
-<p>Email: soumyaranjansahu232@gmail.com</p>
-<p>Phone: +91-6372741771</p>
-
-<p>
-GitHub:
-<a href="https://github.com/soumyaranjansahu2000">
-soumyaranjansahu2000
-</a>
-</p>
-
-</div>
-
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="sec-label">// 06 — Let's Talk</p>
+        <h2 class="contact-headline">OPEN<br/>TO<br/><span style="color:var(--lime)">WORK</span></h2>
+        <p class="contact-sub">Looking for SDET / Automation Engineer roles. 4.6+ years of QA depth + modern Playwright Python automation + AI framework experience. Let's build quality together.</p>
+        <div class="contact-items">
+          <a href="mailto:soumyaranjansahu232@gmail.com" class="contact-item">
+            <span class="ci-icon">✉️</span>
+            <div class="ci-info"><span class="ci-label">Email</span><span class="ci-val">soumyaranjansahu232@gmail.com</span></div>
+          </a>
+          <a href="tel:+916372741771" class="contact-item">
+            <span class="ci-icon">📱</span>
+            <div class="ci-info"><span class="ci-label">Phone</span><span class="ci-val">+91-6372741771</span></div>
+          </a>
+          <a href="https://linkedin.com/in/soumyaranjan-sahu-6abb14238" target="_blank" class="contact-item">
+            <span class="ci-icon">💼</span>
+            <div class="ci-info"><span class="ci-label">LinkedIn</span><span class="ci-val">soumyaranjan-sahu-6abb14238</span></div>
+          </a>
+          <a href="https://github.com/soumyaranjansahu2000" target="_blank" class="contact-item">
+            <span class="ci-icon">🐙</span>
+            <div class="ci-info"><span class="ci-label">GitHub</span><span class="ci-val">soumyaranjansahu2000</span></div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="fgroup"><label>Name</label><input type="text" placeholder="Your name"/></div>
+            <div class="fgroup"><label>Email</label><input type="email" placeholder="your@email.com"/></div>
+          </div>
+          <div class="fgroup"><label>Subject</label><input type="text" placeholder="Automation Engineer Role — Company Name"/></div>
+          <div class="fgroup"><label>Message</label><textarea rows="6" placeholder="Hi Soumyaranjan, we have an exciting SDET opportunity..."></textarea></div>
+          <button class="form-submit" onclick="this.textContent='Message Sent ✔'; this.style.background='#28c841';">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-
-<p>Designed & Built by Soumyaranjan Sahu</p>
-
+  <div>Built by <span class="fl">Soumyaranjan Sahu</span> · SDET Portfolio 2025</div>
+  <div>Playwright · Python · AI Automation · <span class="fl">QA → SDET</span></div>
 </footer>
 
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
 <script>
-
-particlesJS("particles-js",{
-particles:{
-number:{value:60},
-size:{value:3},
-color:{value:"#00f5d4"},
-line_linked:{enable:true,color:"#00f5d4"},
-move:{speed:2}
-}
+// Cursor
+const cur = document.getElementById('cur');
+const cur2 = document.getElementById('cur2');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  setTimeout(() => { cur2.style.left = e.clientX + 'px'; cur2.style.top = e.clientY + 'px'; }, 70);
 });
 
-function runTest(){
-
-const terminal=document.getElementById("terminal");
-
-terminal.innerHTML="Launching browser...<br>";
-
-setTimeout(()=>{terminal.innerHTML+="Navigating to login page...<br>";},1000);
-setTimeout(()=>{terminal.innerHTML+="Entering credentials...<br>";},2000);
-setTimeout(()=>{terminal.innerHTML+="Click login button...<br>";},3000);
-setTimeout(()=>{terminal.innerHTML+="Assertion passed ✔<br>";},4000);
-setTimeout(()=>{terminal.innerHTML+="Test completed ✔";},5000);
-
+// Canvas background — animated mesh
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, pts;
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  pts = Array.from({length:70}, () => ({
+    x: Math.random()*W, y: Math.random()*H,
+    vx: (Math.random()-.5)*.3, vy: (Math.random()-.5)*.3,
+    r: Math.random()*1.5+.5
+  }));
 }
-
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script>
-
-const resumeData={
-name:"Soumyaranjan Sahu",
-title:"Senior QA Engineer → SDET",
-email:"soumyaranjansahu232@gmail.com",
-phone:"+91-6372741771",
-skills:["Python","Playwright","Pytest","API Testing","SQL","Git","JIRA"]
-};
-
-function generateResume(){
-
-const { jsPDF } = window.jspdf;
-
-const doc=new jsPDF();
-
-doc.text(resumeData.name,20,20);
-doc.text(resumeData.title,20,30);
-doc.text("Email: "+resumeData.email,20,40);
-doc.text("Phone: "+resumeData.phone,20,50);
-
-doc.text("Skills:",20,70);
-
-let y=80;
-
-resumeData.skills.forEach(skill=>{
-doc.text("- "+skill,20,y);
-y+=7;
-});
-
-doc.save("Soumyaranjan_Sahu_Resume.pdf");
-
+resize(); window.addEventListener('resize', resize);
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<pts.length;i++){
+    const p=pts[i];
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(200,255,0,.4)';
+    ctx.fill();
+    for(let j=i+1;j<pts.length;j++){
+      const q=pts[j];
+      const d=Math.hypot(p.x-q.x,p.y-q.y);
+      if(d<120){
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+        ctx.strokeStyle=`rgba(200,255,0,${(1-d/120)*.06})`;
+        ctx.lineWidth=.5; ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(draw);
 }
+draw();
 
+// Reveal
+const revEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*80); });
+}, {threshold:.1});
+revEls.forEach(el=>obs.observe(el));
+
+// Skills tabs
+function showSkill(id) {
+  document.querySelectorAll('.skills-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.skill-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById('skill-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
 </script>
-
 </body>
 </html>
