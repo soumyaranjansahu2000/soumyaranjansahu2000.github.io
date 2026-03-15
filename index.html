@@ -92,11 +92,9 @@ nav::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;backg
   transition:color .3s,box-shadow .3s;
   clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
 }
-.nav-hire::before{content:'';position:absolute;inset:0;background:var(--lime);transform:translateX(-101%);transition:transform .3s;}
+.nav-hire::before{content:'';position:absolute;inset:0;background:var(--lime);transform:translateX(-101%);transition:transform .3s;pointer-events:none;}
 .nav-hire:hover::before{transform:translateX(0);}
-.nav-hire span{position:relative;z-index:1;}
-.nav-hire:hover span{color:#000;}
-.nav-hire:hover{box-shadow:0 0 20px rgba(170,255,0,.4);}
+.nav-hire:hover{color:#000;box-shadow:0 0 20px rgba(170,255,0,.4);}
 
 /* ── SECTION ── */
 section{position:relative;z-index:2;}
@@ -504,7 +502,7 @@ footer em{color:var(--lime);font-style:normal;text-shadow:0 0 8px rgba(170,255,0
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="mailto:soumyaranjansahu232@gmail.com?subject=SDET%20Opportunity&body=Hi%20Soumyaranjan%2C%0A%0A" class="nav-hire"><span>Hire Me ✉</span></a>
+  <a href="mailto:soumyaranjansahu232@gmail.com?subject=SDET%20Opportunity&body=Hi%20Soumyaranjan%2C%0A%0A" class="nav-hire" style="cursor:pointer;">Hire Me ✉</a>
 </nav>
 
 <!-- HERO -->
